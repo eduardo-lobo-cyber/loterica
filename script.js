@@ -272,74 +272,74 @@ function initSmoothScroll() {
     });
 }
 
-/* ----- Efeito de Números Sortudos (para uso futuro) ----- */
-function animateNumbers(element, finalValue, duration) {
-    const startValue = 0;
-    const startTime = performance.now();
-    
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        
-        // Easing function
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-        
-        const currentValue = Math.floor(easeOutQuart * finalValue);
-        element.textContent = currentValue;
-        
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
-    }
-    
-    requestAnimationFrame(update);
-}
+/* ========================================
+   API DE RESULTADOS DAS LOTERIAS - CAIXA
+   ======================================== */
 
-/* ----- Máscara de CPF (para uso futuro) ----- */
-function maskCPF(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length > 0) {
-        value = value.match(/(\d{0,3})(\d{0,3})(\d{0,3})(\d{0,2})/);
-        value = !value[2] ? value[1] : value[1] + '.' + value[2] + (value[3] ? '.' + value[3] : '') + (value[4] ? '-' + value[4] : '');
-    }
-    input.value = value;
-}
-
-/* ----- Máscara de CEP (para uso futuro) ----- */
-function maskCEP(input) {
-    let value = input.value.replace(/\D/g, '');
-    if (value.length > 0) {
-        value = value.match(/(\d{0,5})(\d{0,3})/);
-        value = !value[2] ? value[1] : value[1] + '-' + value[2];
-    }
-    input.value = value;
-}
-
-/* ----- API Integration - Resultados de Loterias ----- */
+/**
+ * ==========================================
+ * CONFIGURAÇÃO DA API
+ * ==========================================
+ * 
+ * A API da CAIXA usa o seguinte formato de URL:
+ * https://servicebus2.caixa.gov.br/portaldeloterias/api/{loteria}
+ * 
+ * Loteria disponíveis:
+ * - megasena
+ * - lotofacil
+ * - quina
+ * - duplasena
+ * - federal
+ * - timemania
+ * - lotomania
+ * - diadesorte
+ * - supersete
+ * 
+ * Para adicionar uma nova loteria, basta adicionar ao objeto lotteries abaixo.
+ */
 const LotteryAPI = {
-    // API base URL - API oficial das Loterias Caixa
-    baseURL: 'https://loteriascaixa-api.herokuapp.com/api',
+    // ==========================================
+    // URL DO PROXY PHP - Use o arquivo api-proxy.php para evitar CORS
+    // ==========================================
+    baseURL: 'api-proxy.php',
     
-    // API alternativa para teste
-    altBaseURL: 'https://api.guidi.dev.br/loteria',
-    
-    // Mapeamento de loterias
+    // ==========================================
+    // CONFIGURAÇÃO DAS LOTERIAS
+    // ==========================================
+    // Para adicionar/alterar uma loteria, modifique este objeto:
+    // - name: Nome exibido na página
+    // - icon: Ícone do Font Awesome
+    // - color: Classe CSS para cor do cabeçalho
+    // - numbers: Quantidade de números sorteados
     lotteries: {
-        'megasena': { name: 'Mega-Sena', icon: 'fa-trophy', color: 'mega-sena', numbers: 6 },
-        'quina': { name: 'Quina', icon: 'fa-gem', color: 'quina', numbers: 5 },
-        'lotofacil': { name: 'Lotofácil', icon: 'fa-star', color: 'lotofacil', numbers: 15 },
-        'duplasena': { name: 'Dupla Sena', icon: 'fa-crown', color: 'dupla-sena', numbers: 6 },
-        'federal': { name: 'Lot Federal', icon: 'fa-money-bill-alt', color: 'federal', numbers: 5 },
-        'timemania': { name: 'Timemania', icon: 'fa-futbol', color: 'timemania', numbers: 7 },
-        'lotomania': { name: 'Lotomania', icon: 'fa-dice', color: 'lotomania', numbers: 20 },
-        'diadesorte': { name: 'Dia de Sorte', icon: 'fa-calendar-alt', color: 'dia-de-sorte', numbers: 7 },
-        'supersete': { name: 'Super Sete', icon: 'fa-coins', color: 'super-sete', numbers: 7 }
+        'megasena': { 
+            name: 'Mega-Sena', 
+            icon: 'fa-trophy', 
+            color: 'mega-sena', 
+            numbers: 6 
+        },
+        'lotofacil': { 
+            name: 'Lotofácil', 
+            icon: 'fa-star', 
+            color: 'lotofacil', 
+            numbers: 15 
+        },
+        'quina': { 
+            name: 'Quina', 
+            icon: 'fa-gem', 
+            color: 'quina', 
+            numbers: 5 
+        }
     },
 
-    // Buscar resultado mais recente de uma loteria específica
+    // ==========================================
+    // BUSCAR RESULTADO DE UMA LOTERIA
+    // ==========================================
+    // Parâmetro: nome da loteria (ex: 'megasena', 'lotofacil', 'quina')
+    // Retorna: objeto com os dados do resultado
     async getResult(lottery) {
         try {
-            const response = await fetch(`${this.baseURL}/${lottery}/latest`);
+            const response = await fetch(`${this.baseURL}/${lottery}`);
             if (!response.ok) throw new Error('Erro ao buscar resultado');
             return await response.json();
         } catch (error) {
@@ -348,9 +348,11 @@ const LotteryAPI = {
         }
     },
 
-    // Buscar todos os resultados principais
+    // ==========================================
+    // BUSCAR TODOS OS RESULTADOS PRINCIPAIS
+    // ==========================================
     async getAllResults() {
-        const mainLotteries = ['megasena', 'quina', 'lotofacil', 'duplasena', 'federal'];
+        const mainLotteries = ['megasena', 'quina', 'lotofacil'];
         const results = {};
         
         for (const lottery of mainLotteries) {
@@ -360,27 +362,16 @@ const LotteryAPI = {
         return results;
     },
 
-    // Função de teste usando API alternativa
-    async testAPI() {
-        console.log('=== Testando API de Loterias ===');
-        try {
-            // Testar Mega-Sena
-            const res = await fetch('https://api.guidi.dev.br/loteria/megasena/ultimo');
-            const data = await res.json();
-            console.log('Mega-Sena:', data.dezenas, 'Concurso:', data.concurso, 'Data:', data.data);
-            return data;
-        } catch (error) {
-            console.error('Erro ao testar API:', error);
-            return null;
-        }
-    },
-
-    // Formatar número com zero à esquerda
+    // ==========================================
+    // FORMATAR NÚMERO COM ZERO À ESQUERDA
+    // ==========================================
     formatNumber(num) {
         return String(num).padStart(2, '0');
     },
 
-    // Formatar valor em reais
+    // ==========================================
+    // FORMATAR VALOR EM REAIS
+    // ==========================================
     formatCurrency(value) {
         if (!value) return 'R$ 0,00';
         return new Intl.NumberFormat('pt-BR', {
@@ -389,17 +380,40 @@ const LotteryAPI = {
         }).format(value);
     },
 
-    // Formatar data
+    // ==========================================
+    // FORMATAR DATA
+    // ==========================================
     formatDate(dateString) {
         if (!dateString) return '--/--/----';
-        const date = new Date(dateString);
+        // A data vem no formato: /Date(1704734400000)/
+        const timestamp = parseInt(dateString.replace(/\D/g, ''));
+        const date = new Date(timestamp);
         return date.toLocaleDateString('pt-BR');
     }
 };
 
-/* ----- Renderizador de Resultados ----- */
+/* ========================================
+   RENDERIZADOR DE RESULTADOS
+   ======================================== */
+
+/**
+ * ==========================================
+ * ESTILIZAÇÃO
+ * ==========================================
+ * 
+ * Para alterar o estilo dos cards, procure no CSS:
+ * - .result-full-card: Card principal
+ * - .result-full-header: Cabeçalho com cor
+ * - .result-full-numbers: Container dos números
+ * - .number-ball: Bolas dos números
+ * - .result-full-prizes: Prêmios
+ * 
+ * O arquivo style.css contém todas as classes de estilo.
+ */
 const ResultsRenderer = {
-    // Renderizar cards de resultados na página
+    // ==========================================
+    // RENDERIZAR TODOS OS RESULTADOS
+    // ==========================================
     async renderResults() {
         const container = document.getElementById('results-container');
         if (!container) return;
@@ -413,84 +427,62 @@ const ResultsRenderer = {
 
             // Renderizar cada loteria
             for (const [key, data] of Object.entries(results)) {
-                if (data && data.numerosSorteados) {
+                if (data && data.dezenas) {
                     const card = this.createResultCard(key, data);
                     container.appendChild(card);
                 }
             }
-
-            // Adicionar seção de outras loterias
-            this.renderOtherLotteries(container);
 
         } catch (error) {
             container.innerHTML = `<div class="error-results"><i class="fas fa-exclamation-triangle"></i><p>Erro ao carregar resultados. Tente novamente mais tarde.</p></div>`;
         }
     },
 
-    // Criar card de resultado
+    // ==========================================
+    // CRIAR CARD DE RESULTADO
+    // ==========================================
     createResultCard(lotteryKey, data) {
         const config = LotteryAPI.lotteries[lotteryKey];
         const card = document.createElement('div');
         card.className = 'result-full-card';
         card.setAttribute('data-animate', 'fade-up');
 
-        const numbers = data.numerosSorteados || [];
-        const prizes = data.rateioPremio || [];
+        // Extrair dados do JSON da API da CAIXA
+        const dezenas = data.dezenas || [];
+        const concurso = data.numeroConcurso || data.concurso || '0000';
+        const dataSorteio = data.dataApuracao || data.dataSorteio;
+        const valorEstimado = data.valorEstimadoProximoConcurso || data.valorAcumulado;
+        const dataProximo = data.dataProximoConcurso;
 
-        let numbersHTML = '';
-        
-        if (lotteryKey === 'duplasena') {
-            // Dupla Sena tem 2 sorteios
-            const primeiro = numbers.slice(0, 6);
-            const segundo = numbers.slice(6, 12);
-            numbersHTML = `
-                <div class="dupla-sena-results">
-                    <div class="sena-draw">
-                        <h4>1º Sorteio</h4>
-                        <div class="result-full-numbers">
-                            ${primeiro.map(n => `<span class="number-ball">${LotteryAPI.formatNumber(n)}</span>`).join('')}
-                        </div>
-                    </div>
-                    <div class="sena-draw">
-                        <h4>2º Sorteio</h4>
-                        <div class="result-full-numbers">
-                            ${segundo.map(n => `<span class="number-ball">${LotteryAPI.formatNumber(n)}</span>`).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else if (lotteryKey === 'federal') {
-            // Federal tem formato diferente
-            numbersHTML = `
-                <div class="federal-results">
-                    ${numbers.map((n, i) => `
-                        <div class="federal-prize">
-                            <span class="prize-number">${i + 1}º</span>
-                            <span class="prize-value">${prizes[i] ? LotteryAPI.formatCurrency(prizes[i].valorPremio) : 'R$ 0,00'}</span>
-                            <span class="prize-bill">${String(n).padStart(5, '0').slice(0, 5)}-${String(n).slice(-1)}</span>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        } else {
-            // Outras loterias
-            numbersHTML = `
-                <div class="result-full-numbers ${lotteryKey === 'lotofacil' ? 'lotofacil-numbers' : ''}">
-                    ${numbers.map(n => `<span class="number-ball">${LotteryAPI.formatNumber(n)}</span>`).join('')}
-                </div>
-            `;
-        }
+        // Gerar HTML dos números
+        const numbersHTML = `
+            <div class="result-full-numbers ${lotteryKey === 'lotofacil' ? 'lotofacil-numbers' : ''}">
+                ${dezenas.map(n => `<span class="number-ball">${LotteryAPI.formatNumber(n)}</span>`).join('')}
+            </div>
+        `;
 
+        // Gerar HTML dos prêmios (se houver)
         let prizesHTML = '';
-        if (prizes.length > 0 && lotteryKey !== 'federal') {
+        if (data.rateioPremio && data.rateioPremio.length > 0) {
             prizesHTML = `
                 <div class="result-full-prizes">
-                    ${prizes.map(p => `
+                    ${data.rateioPremio.map(p => `
                         <div class="prize">
                             <span class="prize-label">${p.descricao}</span>
                             <span class="prize-value">${LotteryAPI.formatCurrency(p.valorPremio)}</span>
                         </div>
                     `).join('')}
+                </div>
+            `;
+        }
+
+        // Gerar HTML do rodapé com próximo prêmio
+        let footerHTML = '';
+        if (valorEstimado && valorEstimado > 0) {
+            footerHTML = `
+                <div class="result-full-footer">
+                    <span class="estimated">Próximo prêmio: ${LotteryAPI.formatCurrency(valorEstimado)}</span>
+                    ${dataProximo ? `<span class="draw-date">Sorteio: ${LotteryAPI.formatDate(dataProximo)}</span>` : ''}
                 </div>
             `;
         }
@@ -502,82 +494,22 @@ const ResultsRenderer = {
                     <h2>${config.name}</h2>
                 </div>
                 <div class="result-full-info">
-                    <span class="concurso">Concurso ${data.numeroConcurso || '0000'}</span>
-                    <span class="date">${data.dataConcurso ? LotteryAPI.formatDate(data.dataConcurso) : '--/--/----'}</span>
+                    <span class="concurso">Concurso ${concurso}</span>
+                    <span class="date">${LotteryAPI.formatDate(dataSorteio)}</span>
                 </div>
-            </div>
             <div class="result-full-body">
                 ${numbersHTML}
                 ${prizesHTML}
             </div>
-            ${data.valorAcumuladoConcurso_0_5 !== undefined && data.valorAcumuladoConcurso_0_5 > 0 ? `
-                <div class="result-full-footer">
-                    <span class="estimated">Próximo prêmio: ${LotteryAPI.formatCurrency(data.valorAcumuladoConcurso_0_5)}</span>
-                    <span class="draw-date">Sorteio: ${data.dataProximoConcurso ? LotteryAPI.formatDate(data.dataProximoConcurso) : '--/--/----'}</span>
-                </div>
-            ` : ''}
+            ${footerHTML}
         `;
 
         return card;
-    },
-
-    // Renderizar outras loterias
-    renderOtherLotteries(container) {
-        const otherSection = document.createElement('div');
-        otherSection.className = 'other-lotteries';
-        otherSection.setAttribute('data-animate', 'fade-up');
-        
-        otherSection.innerHTML = `
-            <h2 class="section-title">Outras Loterias</h2>
-            <div class="other-lotteries-grid" id="other-lotteries-grid">
-                <!-- Outras loterias serão carregadas aqui -->
-            </div>
-        `;
-        
-        container.appendChild(otherSection);
-        
-        // Carregar outras loterias
-        this.loadOtherLotteries();
-    },
-
-    // Carregar outras loterias
-    async loadOtherLotteries() {
-        const grid = document.getElementById('other-lotteries-grid');
-        if (!grid) return;
-
-        const otherLotteries = ['timemania', 'lotomania', 'diadesorte', 'supersete'];
-
-        for (const lottery of otherLotteries) {
-            try {
-                const data = await LotteryAPI.getResult(lottery);
-                if (data) {
-                    const config = LotteryAPI.lotteries[lottery];
-                    const card = document.createElement('div');
-                    card.className = 'other-lottery-card';
-                    card.innerHTML = `
-                        <i class="fas ${config.icon}"></i>
-                        <h3>${config.name}</h3>
-                        <p>Concurso ${data.numeroConcurso || '0000'}</p>
-                        <p class="date">${data.dataConcurso ? LotteryAPI.formatDate(data.dataConcurso) : '--/--/----'}</p>
-                        <button class="btn btn-small" onclick="viewLotteryDetails('${lottery}')">Ver Resultado</button>
-                    `;
-                    grid.appendChild(card);
-                }
-            } catch (error) {
-                console.error(`Erro ao carregar ${lottery}:`, error);
-            }
-        }
     }
 };
 
-// Função global para ver detalhes de uma loteria
-function viewLotteryDetails(lottery) {
-    // Implementar modal ou navegação para detalhes
-    alert(`Em breve: Detalhes da ${LotteryAPI.lotteries[lottery].name}`);
-}
-
-/* ----- Exportar para uso global ----- */
+/* ========================================
+   EXPORTAR PARA USO GLOBAL
+   ======================================== */
 window.LotteryAPI = LotteryAPI;
-window.maskCPF = maskCPF;
-window.maskCEP = maskCEP;
-
+window.ResultsRenderer = ResultsRenderer;
