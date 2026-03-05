@@ -20,7 +20,7 @@
     --border-color: #e0e0e0;
     --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
-    --transition: all 0.3s ease;
+    --transition: all 0.2s ease;
     --font-family: 'Poppins', sans-serif;
 }
 
@@ -191,6 +191,12 @@ h4 { font-size: 1.25rem; }
     font-size: 2rem;
 }
 
+.logo-image {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
 .logo-text {
     font-size: 1.5rem;
     font-weight: 600;
@@ -211,6 +217,7 @@ h4 { font-size: 1.25rem; }
 }
 
 .nav-list a {
+    font-size: 1.4rem;
     font-weight: 500;
     color: var(--text-dark);
     transition: var(--transition);
