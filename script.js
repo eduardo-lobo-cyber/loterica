@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initFAQ();
     initFormValidation();
     initSmoothScroll();
+    initWhatsAppFloat();
     
     // Inicializar resultados da API (apenas na página de resultados)
     if (document.getElementById('results-container')) {
@@ -271,6 +272,76 @@ function initSmoothScroll() {
         });
     });
 }
+
+/* ========================================
+   BOTÃO FLUTUANTE WHATSAPP
+   ======================================== */
+
+// Configuração do WhatsApp - Altere aqui o número desejado
+const WhatsAppConfig = {
+    // Número do WhatsApp (apenas dígitos, com código do país)
+    // Exemplo: 5511999999999 (55 = Brasil, 11 = São Paulo, 999999999 = número)
+    phoneNumber: '5511999999999',
+    
+    // Mensagem padrão que será enviada
+    defaultMessage: 'Olá! Gostaria de mais informações sobre os serviços da Loterica Eldorado.',
+    
+    // Texto do tooltip
+    tooltipText: 'Fale conosco no WhatsApp'
+};
+
+/* ----- Inicializar Botão Flutuante WhatsApp ----- */
+function initWhatsAppFloat() {
+    // Verificar se o botão já existe
+    if (document.querySelector('.whatsapp-float')) {
+        return;
+    }
+
+    // Criar elemento do botão
+    const whatsappBtn = document.createElement('a');
+    whatsappBtn.className = 'whatsapp-float';
+    whatsappBtn.href = generateWhatsAppLink(WhatsAppConfig.phoneNumber, WhatsAppConfig.defaultMessage);
+    whatsappBtn.target = '_blank';
+    whatsappBtn.rel = 'noopener noreferrer';
+    whatsappBtn.setAttribute('aria-label', 'WhatsApp');
+
+    // Ícone do WhatsApp
+    whatsappBtn.innerHTML = `
+        <i class="fab fa-whatsapp"></i>
+        <span class="whatsapp-tooltip">${WhatsAppConfig.tooltipText}</span>
+    `;
+
+    // Adicionar ao body
+    document.body.appendChild(whatsappBtn);
+}
+
+/* ----- Gerar Link do WhatsApp ----- */
+function generateWhatsAppLink(phoneNumber, message) {
+    // Remove caracteres não numéricos do número
+    const cleanPhone = phoneNumber.replace(/\D/g, '');
+    
+    // Codifica a mensagem para URL
+    const encodedMessage = encodeURIComponent(message);
+    
+    // Retorna o link no formato do WhatsApp Web
+    return `https://wa.me/${cleanPhone}?text=${encodedMessage}`;
+}
+
+/* ----- Atualizar Configuração do WhatsApp (para uso futuro) ----- */
+function updateWhatsAppConfig(phoneNumber, message) {
+    WhatsAppConfig.phoneNumber = phoneNumber;
+    WhatsAppConfig.defaultMessage = message;
+    
+    // Atualizar link do botão existente
+    const whatsappBtn = document.querySelector('.whatsapp-float');
+    if (whatsappBtn) {
+        whatsappBtn.href = generateWhatsAppLink(phoneNumber, message);
+    }
+}
+
+// Exportar para uso global
+window.WhatsAppConfig = WhatsAppConfig;
+window.updateWhatsAppConfig = updateWhatsAppConfig;
 
 /* ========================================
    API DE RESULTADOS DAS LOTERIAS - CAIXA
