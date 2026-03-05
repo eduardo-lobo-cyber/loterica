@@ -284,7 +284,7 @@ const WhatsAppConfig = {
     phoneNumber: '5511999999999',
     
     // Mensagem padrão que será enviada
-    defaultMessage: 'Olá! Gostaria de mais informações sobre os serviços da Loterica Eldorado.',
+    defaultMessage: 'Olá! Gostaria de mais informações sobre os serviços da Mega Mania.',
     
     // Texto do tooltip
     tooltipText: 'Fale conosco no WhatsApp'
