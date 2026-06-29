@@ -728,6 +728,22 @@ h4 { font-size: 1.25rem; }
     background: linear-gradient(135deg, #d35400 0%, #e67e22 100%);
 }
 
+.result-full-header.timemania {
+    background: linear-gradient(135deg, #0b8f6a 0%, #1abc9c 100%);
+}
+
+.result-full-header.lotomania {
+    background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+}
+
+.result-full-header.diadesorte {
+    background: linear-gradient(135deg, #f39c12 0%, #f1c40f 100%);
+}
+
+.result-full-header.supersete {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+}
+
 .result-full-header.federal {
     background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
 }
@@ -1507,10 +1523,62 @@ h4 { font-size: 1.25rem; }
     text-decoration: none;
 }
 
+.whatsapp-float.initial {
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translate(-50%, -50%) scale(1.4);
+    animation: whatsapp-move 1.4s ease-in-out forwards;
+}
+
+.whatsapp-float.pulse {
+    animation: whatsapp-pulse 1.8s ease-in-out infinite 2s;
+}
+
+@keyframes whatsapp-move {
+    0% {
+        top: 50%;
+        left: 50%;
+        bottom: auto;
+        right: auto;
+        transform: translate(-50%, -50%) scale(1.4);
+        opacity: 1;
+    }
+    60% {
+        top: auto;
+        left: auto;
+        bottom: 30px;
+        right: 30px;
+        transform: translate(0, 0) scale(0.95);
+        opacity: 1;
+    }
+    100% {
+        top: auto;
+        left: auto;
+        bottom: 30px;
+        right: 30px;
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes whatsapp-pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+    }
+    50% {
+        transform: scale(1.07);
+        box-shadow: 0 0 0 18px rgba(37, 211, 102, 0.12);
+    }
+}
+
 .whatsapp-float:hover {
     background-color: #1da851;
-    transform: scale(1.1);
+    transform: scale(1.15);
     box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+    animation: none;
 }
 
 .whatsapp-float i {
@@ -1619,10 +1687,21 @@ h4 { font-size: 1.25rem; }
 }
 
 @media (max-width: 768px) {
-    .mobile-toggle {
-        display: flex;
+    .container {
+        padding: 0 20px;
     }
-    
+
+    .header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 12px 20px;
+    }
+
+    .logo-image {
+        height: 70px;
+    }
+
     .nav-menu {
         position: fixed;
         top: 70px;
@@ -1635,6 +1714,10 @@ h4 { font-size: 1.25rem; }
         transition: var(--transition);
         box-shadow: var(--shadow);
     }
+
+    .mobile-toggle {
+        display: flex;
+    }
     
     .nav-menu.active {
         left: 0;
@@ -1642,8 +1725,12 @@ h4 { font-size: 1.25rem; }
     
     .nav-list {
         flex-direction: column;
-        gap: 20px;
+        gap: 18px;
         text-align: center;
+    }
+
+    .nav-list a {
+        font-size: 1.1rem;
     }
     
     .banner-content h1 {
@@ -1651,6 +1738,18 @@ h4 { font-size: 1.25rem; }
     }
     
     .banner-content p {
+        font-size: 1rem;
+    }
+    
+    .page-header {
+        padding: 90px 0 40px;
+    }
+
+    .page-header h1 {
+        font-size: 2.4rem;
+    }
+
+    .page-header p {
         font-size: 1rem;
     }
     
@@ -1668,11 +1767,41 @@ h4 { font-size: 1.25rem; }
         text-align: center;
     }
     
+    .result-full-card {
+        margin-bottom: 20px;
+    }
+
     .result-full-header {
         flex-direction: column;
         text-align: center;
+        gap: 10px;
+    }
+
+    .result-full-info {
+        justify-content: center;
+        gap: 12px;
+        flex-wrap: wrap;
     }
     
+    .result-full-body {
+        padding: 22px;
+    }
+
+    .result-full-numbers {
+        gap: 12px;
+    }
+
+    .result-full-prizes {
+        gap: 15px;
+    }
+
+    .result-full-footer {
+        padding: 18px 22px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
     .dupla-sena-results {
         grid-template-columns: 1fr;
     }
@@ -1697,9 +1826,36 @@ h4 { font-size: 1.25rem; }
     .footer-contact li {
         justify-content: center;
     }
+    
+    .service-block {
+        grid-template-columns: 1fr;
+        padding: 30px;
+    }
+
+    .service-block-icon {
+        width: 120px;
+        height: 120px;
+        font-size: 3rem;
+    }
+
+    .service-features {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
+    .header .container {
+        padding: 10px 16px;
+    }
+
+    .logo-image {
+        height: 55px;
+    }
+
+    .nav-list a {
+        font-size: 1rem;
+    }
+
     h1 {
         font-size: 2rem;
     }
@@ -1708,8 +1864,16 @@ h4 { font-size: 1.25rem; }
         font-size: 1.5rem;
     }
     
-    .banner-content h1 {
+    .page-header {
+        padding: 80px 0 30px;
+    }
+
+    .page-header h1 {
         font-size: 2rem;
+    }
+
+    .page-header p {
+        font-size: 0.98rem;
     }
     
     .services-grid {
@@ -1731,19 +1895,67 @@ h4 { font-size: 1.25rem; }
     
     .cta-buttons .btn {
         width: 100%;
-        max-width: 250px;
+        max-width: 280px;
+    }
+
+    .cta-section {
+        padding: 60px 0;
+    }
+
+    .cta-section h2 {
+        font-size: 1.7rem;
+    }
+
+    .cta-section p {
+        font-size: 1rem;
+    }
+    
+    .result-full-body {
+        padding: 18px;
+    }
+
+    .result-full-footer {
+        padding: 15px 18px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .result-full-title h2 {
+        font-size: 1.35rem;
+    }
+
+    .result-full-info {
+        gap: 8px;
+        justify-content: center;
+    }
+    
+    .result-full-prizes {
+        flex-direction: column;
+        align-items: center;
     }
     
     .number-ball {
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
         font-size: 1rem;
     }
     
     .lotofacil-numbers .number-ball {
         width: 35px;
         height: 35px;
-        font-size: 0.875rem;
+        font-size: 0.85rem;
+    }
+    
+    .footer-section {
+        padding: 16px 0;
+    }
+
+    .footer-logo .logo-text {
+        font-size: 1.3rem;
+    }
+
+    .footer-links li {
+        margin-bottom: 10px;
     }
 }
 

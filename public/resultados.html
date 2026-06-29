@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Lotérica Mega Mania</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Lotérica Mega Mania" class="logo-image">
+                <a href="index.html">
+                   <!-- <span class="logo-text">Mega <strong>Mania</strong></span> -->
+                </a>
+            </div>
+            <nav class="nav-menu" id="navMenu">
+                <ul class="nav-list">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="servicos.html">Serviços</a></li>
+                    <li><a href="loterias.html">Loterias</a></li>
+                    <li><a href="resultados.html" class="active">Resultados</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-toggle" id="mobileToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Resultados das Loterias</h1>
+            <p>Confira os últimos números sorteados em todas as loterias</p>
+        </div>
+    </section>
+
+    <!-- Resultados Section -->
+    <section class="results-page">
+        <div class="container" id="resultados">
+            Carregando resultados...
+            <div id="lotofacil-status" class="loading-results">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Carregando resultado da Lotofácil...</p>
+            </div>
+
+            <div id="lotofacil-card" class="result-full-card" hidden>
+                <div class="result-full-header lotofacil">
+                    <div class="result-full-title">
+                        <i class="fas fa-clover"></i>
+                        <h2>Lotofácil</h2>
+                    </div>
+                    <div class="result-full-info">
+                        <span id="lotofacil-concurso">Concurso</span>
+                        <span id="lotofacil-data">Data</span>
+                    </div>
+                </div>
+
+                <div class="result-full-body">
+                    <div id="lotofacil-numbers" class="result-full-numbers lotofacil-numbers"></div>
+                    <div id="lotofacil-prizes" class="result-full-prizes"></div>
+                </div>
+
+                <div class="result-full-footer">
+                    <span id="lotofacil-local">Local: --</span>
+                    <span id="lotofacil-proximo" class="estimated"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Aposte Agora e Seja o Próximo Vencedor!</h2>
+            <p>Venha fazer sua aposta na Lotérica Mega Mania. Nossa equipe está pronta para atendê-lo.</p>
+            <div class="cta-buttons">
+                <a href="servicos.html" class="btn btn-primary btn-white">Nossos Serviços</a>
+                <a href="contato.html" class="btn btn-outline btn-white">Fale Conosco</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-text">Lotérica <strong>Mega Mania</strong></span>
+                    </div>
+                    <p>Sua lotérica de confiança há mais de 20 anos no mercado. Oferecemos os melhores serviços com segurança e praticidade.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/lotericamegamania/" class="social-link" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/5527998116454" class="social-link" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="servicos.html">Serviços</a></li>
+                        <li><a href="loterias.html">Loterias</a></li>
+                        <li><a href="resultados.html">Resultados</a></li>
+                        <li><a href="contato.html">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contato</h3>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-map-marker-alt"></i> Av. Min. Salgado Filho, 1525 - Soteco, <br>Vila Velha - ES, 29106-010</li>
+                        <li><i class="fas fa-phone"></i> (27) 99811-6454</li>
+                        <li><i class="fas fa-envelope"></i> megamanialoterica@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Horário de Funcionamento</h3>
+                    <ul class="footer-hours">
+                        <li>Segunda a Sexta: 8h às 18h</li>
+                        <li>Sábado: 8h às 13h</li>
+                        <li>Domingo: 9h às 13h</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lotérica Mega Mania. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="resultados.js"></script>
+</body>
+</html>

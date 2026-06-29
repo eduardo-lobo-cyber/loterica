@@ -281,10 +281,10 @@ function initSmoothScroll() {
 const WhatsAppConfig = {
     // Número do WhatsApp (apenas dígitos, com código do país)
     // Exemplo: 5511999999999 (55 = Brasil, 11 = São Paulo, 999999999 = número)
-    phoneNumber: '5511999999999',
+    phoneNumber: '5527998116454',
     
     // Mensagem padrão que será enviada
-    defaultMessage: 'Olá! Gostaria de mais informações sobre os serviços da Mega Mania.',
+    defaultMessage: 'Olá! Gostaria de mais informações sobre os serviços da Lotérica Mega Mania.',
     
     // Texto do tooltip
     tooltipText: 'Fale conosco no WhatsApp'
@@ -299,7 +299,7 @@ function initWhatsAppFloat() {
 
     // Criar elemento do botão
     const whatsappBtn = document.createElement('a');
-    whatsappBtn.className = 'whatsapp-float';
+    whatsappBtn.className = 'whatsapp-float initial';
     whatsappBtn.href = generateWhatsAppLink(WhatsAppConfig.phoneNumber, WhatsAppConfig.defaultMessage);
     whatsappBtn.target = '_blank';
     whatsappBtn.rel = 'noopener noreferrer';
@@ -313,6 +313,12 @@ function initWhatsAppFloat() {
 
     // Adicionar ao body
     document.body.appendChild(whatsappBtn);
+
+    // Após animação de entrada, mover para o canto e iniciar pulso
+    setTimeout(() => {
+        whatsappBtn.classList.remove('initial');
+        whatsappBtn.classList.add('pulse');
+    }, 1600);
 }
 
 /* ----- Gerar Link do WhatsApp ----- */
