@@ -281,7 +281,7 @@ function initSmoothScroll() {
 const WhatsAppConfig = {
     // Número do WhatsApp (apenas dígitos, com código do país)
     // Exemplo: 5511999999999 (55 = Brasil, 11 = São Paulo, 999999999 = número)
-    phoneNumber: '5527998116454',
+    phoneNumber: '5527998908184',
     
     // Mensagem padrão que será enviada
     defaultMessage: 'Olá! Gostaria de mais informações sobre os serviços da Lotérica Mega Mania.',
